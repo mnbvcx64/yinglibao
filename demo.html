@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习axios</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body>
+    <button onclick="funGet()">使用axios发送get请求，无参数</button><br/><br/>
+    <button onclick="lisi()">李四</button><br/><br/>
+    <button onclick="get1()">axios的get请求</button><br/><br/>
+    <button onclick="get2()">传参数</button><br/><br/>
+    <button onclick="post()">post请求</button><br/><br/>
+    <button onclick="post2()">post请求</button><br/><br/>
+<script>
+    function funGet(){
+        let url="http://localhost:8080/api/user/query"
+        axios.get(url).then(resp => {
+            console.log("请求成功，返回服务器的数据："+resp);
+        })
+    }
+</script>
+
+<script>
+    function lisi(){
+        let url="http://localhost:8080/api/user/lisi"
+        axios.get(url).then( resp =>{
+            console.log("请求成功，返回服务器数据："+resp)
+        })
+    }
+</script>
+
+<script>
+    function get1(){
+        let url="http://localhost:8080/api/user/get?id=1003&name=lisi";
+        axios.get(url).then( resp =>{
+            console.log("get请求成功，返回服务器数据"+resp)
+        })
+    }
+</script>
+
+<script>
+    function get2(){
+        let url="http://localhost:8080/api/user/get";
+        axios.get(url,{
+            params:{
+                id:1002,
+                name:'lisi',
+                age:19,
+                sex:'男'
+            }
+        }).then( resp =>{
+            console.log("get传参请求成功:"+resp)
+        })
+    }
+</script>
+
+<script>
+    function post(){
+        let url="http://localhost:8080/api/user/json";
+        let data={
+            id:1003,
+            name:'王五',
+            age:20,
+            sex:'男'
+        }
+        axios.post(url,data).then(resp=>{
+            console.log("应答结果："+resp)
+        })
+    }
+</script>
+
+<script>
+    function post2(){
+        let url="http://localhost:8080/api/user/json";
+        let data={
+            id:1003,
+            name:'王五',
+            age:20,
+            sex:'男'
+        }
+        axios({
+            url:url,
+            method:"post",
+            data:data
+        }).then(resp=>{
+            console.log("请求处理成功，接收数据："+resp)
+            console.log(resp.data.name)
+        })
+    }
+</script>
+
+<script>
+    axios.interceptors.request.use(function(config){
+        console.log("请求拦截器");
+        console.log("url:"+config.url);
+        console.log("method"+config.method)
+
+        config.url = config.url+"?token=xxx";
+        return config;
+    },function(err){
+        console.log(err);
+    })
+
+    axios.interceptors.response.use(function(response){
+        console.log("应答拦截器，接收服务器返回的数据结构");
+        console.log(response);
+        return response;
+    },function(err){
+        console.log(err);
+    })
+
+</script>
+
+</body>
+
+
+</html>
