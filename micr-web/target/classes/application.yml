@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: micr-web
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  redis:
+    host: localhost
+    port: 6379
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ylb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+      username: root
+      password: 123456
+#端口号
+server:
+  port: 8000
+  servlet:
+    context-path: /api
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+
+#dubbo配置
+dubbo:
+  registry:
+    address: zookeeper://localhost:2181
+
+  scan:
+    base-packages: com.bjpowernode.micrweb
+
+  consumer:
+    check: false
+    timeout: 50000
+    retries: 0
+
+jwt:
+  secret: 00ca78c1f3ec4fa99571e0b33956df2a
